@@ -1,0 +1,9 @@
+/* eslint-disable */
+//prettier-ignore
+module.exports = {
+name: "@yarnpkg/plugin-dedupe",
+factory: function (require) {
+var plugin=(()=>{var a=Object.defineProperty;var p=Object.getOwnPropertyDescriptor;var r=Object.getOwnPropertyNames;var c=Object.prototype.hasOwnProperty;var l=(e=>typeof require<"u"?require:typeof Proxy<"u"?new Proxy(e,{get:(d,n)=>(typeof require<"u"?require:d)[n]}):e)(function(e){if(typeof require<"u")return require.apply(this,arguments);throw Error('Dynamic require of "'+e+'" is not supported')});var f=(e,d)=>{for(var n in d)a(e,n,{get:d[n],enumerable:!0})},y=(e,d,n,u)=>{if(d&&typeof d=="object"||typeof d=="function")for(let t of r(d))!c.call(e,t)&&t!==n&&a(e,t,{get:()=>d[t],enumerable:!(u=p(d,t))||u.enumerable});return e};var g=e=>y(a({},"__esModule",{value:!0}),e);var v={};f(v,{default:()=>M});var o=l("@yarnpkg/shell"),i=["always","dependabot","never"],b={configuration:{dedupePluginMode:{type:"string",default:"always",description:"When to deduplicate packages. Always deduplicates all packages after any install command. Dependabot deduplicates only packages that are updated by Dependabot via GitHub Actions. None disables auto-deduplication.",choices:i}},hooks:{afterAllInstalled:async e=>{let d=e.configuration.get("dedupePluginMode");if(!w(d))throw new Error(`Invalid dedupePluginMode: ${d}. Must be one of: ${i.join(", ")}`);if(d!=="never"){if(d==="always"){await s();return}if(d==="dependabot"){process.env.GITHUB_ACTOR==="dependabot[bot]"&&await s();return}}}}};async function s(){let e="IS_YARN_PLUGIN_DEDUPE_ACTIVE";!process.env[e]&&!process.argv.includes("dedupe")&&(process.env[e]="true",await(0,o.execute)("yarn dedupe --check")&&await(0,o.execute)("yarn dedupe"))}function w(e){return typeof e=="string"&&i.includes(e)}var M=b;return g(v);})();
+return plugin;
+}
+};
